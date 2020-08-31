@@ -1,4 +1,4 @@
-%matplotlib notebook
+# %matplotlib notebook
 import matplotlib.pyplot as pyplot
 import matplotlib.animation as animation
 import numpy as np
@@ -23,15 +23,8 @@ newUnitVector = {"v1":np.array([1/np.sqrt(2),1/np.sqrt(2)]),"v2":np.array([0,1])
 xArray = []
 yArray = []
 for keyName in coordinate:
-    print("=====初期のグラフ======")
     value = coordinate[keyName]
-    print(value[0])
-    print(value[1])
-    xArray.append(value[0])
-    yArray.append(value[1])
-
-print("xArray",xArray)
-print("yArray",yArray)
+   
 pyplot.scatter(xArray,yArray)
 
 def plot(i):
@@ -54,11 +47,11 @@ def plot(i):
                     print("newUnitVector",iName,newUnitVector[iName])
 
         for name in innerBoids:
-            selectedCoordinate = coordinate[name].copy()   ##チェック
+            selectedCoordinate = coordinate[name].copy()  
             sepDict = np.sqrt(np.power((iValue[0] - selectedCoordinate[0]),2) + np.power((iValue[1] - selectedCoordinate[1]),2))
             # 1よりも近い距離に存在するなら,<<<現時点>>>では,x反転
             if(sepDict <= 1):
-                value = unitVector[iName]     ##チェック
+                value = unitVector[iName]     
                 value[0] = -value[0]
                 newUnitVector[iName] = value         ## 値を更新する
             ## 7よりも遠い場合,点を1だけ他の点に近づける.
@@ -67,7 +60,6 @@ def plot(i):
                 diffVectorLength = np.linalg.norm(diffVector)
                 unitDiffVector = (1 / diffVectorLength) * (diffVector.copy()) 
                 newCoordinate[iName] = coordinate[iName] + unitDiffVector
-                print("newCoordinate[iName]",newCoordinate[iName])
              ##　条件2:合成ベクトルを計算し,1.選ばれているボイズの単位ベクトルを変更. 2.選ばれている座標に,合成ベクトルの単位ベクトルを加算し,newCoordinateに格納.
             
              ## まず,選択されている単位ベクトルを格納
@@ -75,20 +67,15 @@ def plot(i):
             ## その他のボイズの単位ベクトルを加算.
             for name in innerBoids:
                 compositeVector += unitVector[name]
-                print("compositeVector",compositeVector)
 
                 ## 合成ベクトルの大きさを求め,合成ベクトルを大きさで割った単位合成ベクトルを選択されているnewUnitVectorに格納.
                 newUnitCompositeVectorLength = np.linalg.norm(compositeVector)
                 newUnitVector[iName] = ( 1 / newUnitCompositeVectorLength) * compositeVector.copy()
-                print("unitVector",iName,unitVector[iName])
-                print("newUnitVector",iName,newUnitVector[iName])
+                
 
                  ## 現在の選択されているボイズの座標に,上記で計算した,合成単位ベクトルを加算する.
                 newCoordinate[iName] = coordinate[iName] + newUnitVector[iName]
                 z = coordinate[iName] + newUnitVector[iName]
-                print("coordinate",iName,coordinate[iName] )
-                print("z",iName,z)
-                print("newCoordinate",iName,newCoordinate[iName])
 
     coordinate = newCoordinate.copy()
     unitVector = newUnitVector.copy()
@@ -100,9 +87,6 @@ def plot(i):
         xArray.append(value[0])
         yArray.append(value[1])
 
-
-        print("xArray",xArray)
-        print("yArray",yArray)
 
     pyplot.scatter(xArray,yArray,alpha=0.5, linewidths='2', c='#aaaaFF', edgecolors='b')
     
